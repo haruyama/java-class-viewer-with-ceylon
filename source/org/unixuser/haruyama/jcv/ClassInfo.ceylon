@@ -3,7 +3,7 @@ import java.nio.file { Path, Paths, Files }
 import java.util { List, ArrayList }
 
 class ConstantPool(ByteArray bytes, List<Integer> list) {
-    variable shared Integer cpsize = 0;
+    variable shared Integer? cpsize = null;
 
     Integer parseString(Integer index) {
         Integer size = list.get(index) * 256 + list.get(index + 1);
@@ -13,6 +13,7 @@ class ConstantPool(ByteArray bytes, List<Integer> list) {
     }
 
     shared Integer parse(Integer index, Integer count = 0) {
+        assert(exists cpsize = cpsize);
         if (count == cpsize - 1) {
             return index;
         }
@@ -117,5 +118,4 @@ shared class ClassInfo(String filename) {
         index = parseConstantPoolSize(index);
         index = constantPool.parse(index);
     }
-
 }
